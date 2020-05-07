@@ -11,18 +11,11 @@ from nltk.corpus import stopwords
 stopWords = set(stopwords.words('english'))
 
 
-ssh = 'https://en.wikipedia.org/wiki/Secure_Shell'
-
 
 def get_wiki_text(url):
 	source = requests.get(url).text
 	soup = bs(source, 'html.parser').find_all('p')
 	return [par.text for par in soup]
-
-
-def remove_not_letters(paragraph):
-    return ' '.join([re.sub('[^a-zA-Z]', '', word) for word in paragraph.split(' ')])
-
 
 
 def basic_clean(paragraph):
@@ -47,9 +40,6 @@ def get_clean_data(url, *label):
 
 
 
-
-
-
 class clean_paragraph():
 	"""docstring for clean_paragraph"""
 	def __init__(self, original_data, clean_data, label, url):
@@ -59,7 +49,9 @@ class clean_paragraph():
 		self.url = url
 
 
-#print(get_clean_data(ssh).clean_data)
+
+ssh = 'https://en.wikipedia.org/wiki/Secure_Shell'
+#print(get_clean_data(ssh, 'cs').clean_data)
 		
 		
 
