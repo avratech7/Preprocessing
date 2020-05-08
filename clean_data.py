@@ -13,7 +13,7 @@ stopWords = set(stopwords.words('english'))
 
 
 def _get_wiki_text(url):
-	'''Return list whit the text from the url divided by paragraph'''
+	'''Return list with the text from the url divided by paragraph.'''
 	source = requests.get(url).text
 	soup = bs(source, 'html.parser').find_all('p')
 	return [par.text for par in soup]
@@ -23,7 +23,7 @@ def _basic_clean(paragraph):
 	'''Basic clean include - 
 		make all lower case
 		remove words with number in them
-		remove all not letters symbols
+		remove all not letters symbols.
 	'''
 	words = paragraph.split(' ')	
 	clean_text = [word.lower() for word in words]
@@ -33,7 +33,7 @@ def _basic_clean(paragraph):
 
 
 def _remove_stop_words(paragraph):
-	'''Filter words like 'the', 'is', 'are' '''
+	'''Filter words like 'the', 'is', 'are'.'''
 	return ' '.join([word for word in paragraph.split(' ') if word not in stopWords])
 
 
@@ -48,7 +48,7 @@ def _stemming_the_paragraphs(paragraph):
 def get_clean_data(url, *label):
 	'''
 	 This is the function that calld from this module
-	 the function accepts url and label and return clean_paragraph object
+	 the function accepts url and label and return clean_paragraph object.
 	'''
 	origin_data = _get_wiki_text(url)
 	return clean_paragraph(origin_data, [_stemming_the_paragraphs(_remove_stop_words(_basic_clean(p))) for p in origin_data],label, url)
@@ -60,12 +60,12 @@ class clean_paragraph():
 	"""
 		This class returned by get_clean_data function
 		the class contain the text returened by _get_wiki_text function
-		and the clean data after 
+		and the clean data after -
 		_basic_clean
 		_remove_stop_words
 		_stemming_the_paragraphs
 		and also the label and the url from get_clean_data function
-		also sum funcunality
+		also sum funcunality.
 	"""
 	def __init__(self, original_data, clean_data, label, url):
 		self.original_data = original_data
@@ -76,18 +76,18 @@ class clean_paragraph():
 
 
 	def __iter__(self):
-		'''Make the class iterable (and the ability to use list(clean_paragraph))'''
+		'''Make the class iterable (and the ability to use list(clean_paragraph)).'''
 		return iter(self.list)
 
 
 	def __add__(self, other):
-		'''Alow to use + sighn to add to object whith the same label'''
+		'''Allow to use + sign to add to objects whith the same label.'''
 		if (self.label == other.label):
 			return clean_paragraph([*self.original_data, *other.original_data], [*self.clean_data, *other.clean_data], self.label, [self.url, other.url])
 
 
 	def __getitem__(self, index):
-		'''Alow to access the object propartys by index'''
+		'''Allow to access the object properties by index.'''
 		return self.list[index]
 
 
