@@ -12,13 +12,13 @@ stopWords = set(stopwords.words('english'))
 
 
 
-def get_wiki_text(url):
+def _get_wiki_text(url):
 	source = requests.get(url).text
 	soup = bs(source, 'html.parser').find_all('p')
 	return [par.text for par in soup]
 
 
-def basic_clean(paragraph):
+def _basic_clean(paragraph):
 	words = paragraph.split(' ')	
 	clean_text = [word.lower() for word in words]
 	clean_text = [re.sub(r'\w*\d\w*', '', word) for word in clean_text]
@@ -26,16 +26,17 @@ def basic_clean(paragraph):
 	return ' '.join(clean_text)
 
 
-def remove_stop_words(paragraph):
+def _remove_stop_words(paragraph):
 	return ' '.join([word for word in paragraph.split(' ') if word not in stopWords])
 
 
-def stemming_the_paragraphs(paragraph):
+def _stemming_the_paragraphs(paragraph):
 	return ' '.join([stemmer.stem(word) for word in paragraph.split(' ')])
 
 
 def get_clean_data(url, *label):
-	return clean_paragraph(get_wiki_text(url), [stemming_the_paragraphs(remove_stop_words(basic_clean(p))) for p in get_wiki_text(url)],label, url)
+	origin_data = _get_wiki_text(url)
+	return clean_paragraph(origin_data, [_stemming_the_paragraphs(_remove_stop_words(_basic_clean(p))) for p in origin_data],label, url)
 	
 
 
@@ -62,13 +63,15 @@ class clean_paragraph():
 	def __getitem__(self, index):
 		return self.list[index]
 
-'''
+
+"""
 ssh = 'https://en.wikipedia.org/wiki/Secure_Shell'
 pyt = 'https://en.wikipedia.org/wiki/Python_(programming_language)'
 obj1 = get_clean_data(ssh, 'cs')
 obj2 = get_clean_data(pyt, 'cs')
 #print(list(get_clean_data(ssh, 'cs')))
 newobj = obj1 + obj2
-print(newobj[3])
-'''
-	
+#print(newobj[3])
+
+print(get_clean_data(ssh, 'cs')[0][0])
+"""
