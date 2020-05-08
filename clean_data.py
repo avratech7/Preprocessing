@@ -55,7 +55,8 @@ class clean_paragraph():
 
 
 	def __add__(self, other):
-		return clean_paragraph([*self.original_data, *other.original_data], [*self.clean_data, *other.clean_data], self.label, [self.url, other.url])
+		if (self.label == other.label):
+			return clean_paragraph([*self.original_data, *other.original_data], [*self.clean_data, *other.clean_data], self.label, [self.url, other.url])
 
 
 	def __getitem__(self, index):
