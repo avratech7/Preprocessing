@@ -54,7 +54,20 @@ class clean_paragraph():
 		return iter(self.list)
 
 
+	def __add__(self, other):
+		return clean_paragraph([*self.original_data, *other.original_data], [*self.clean_data, *other.clean_data], self.label, [self.url, other.url])
+
+
+	def __getitem__(self, index):
+		return self.list[index]
+
+'''
 ssh = 'https://en.wikipedia.org/wiki/Secure_Shell'
-print(list(get_clean_data(ssh, 'cs')))
-		
+pyt = 'https://en.wikipedia.org/wiki/Python_(programming_language)'
+obj1 = get_clean_data(ssh, 'cs')
+obj2 = get_clean_data(pyt, 'cs')
+#print(list(get_clean_data(ssh, 'cs')))
+newobj = obj1 + obj2
+print(newobj[3])
+'''
 	
