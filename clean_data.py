@@ -47,31 +47,14 @@ class clean_paragraph():
 		self.clean_data = clean_data
 		self.label = label
 		self.url = url
+		self.list = [original_data, clean_data, label, url]
 
+
+	def __iter__(self):
+		return iter(self.list)
 
 
 ssh = 'https://en.wikipedia.org/wiki/Secure_Shell'
-#print(get_clean_data(ssh, 'cs').clean_data)
+print(list(get_clean_data(ssh, 'cs')))
 		
-		
-
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
